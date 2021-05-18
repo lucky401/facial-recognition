@@ -17,7 +17,7 @@ export const Navigation = () => {
       <div>
         <Header />
         {isAuthenticated ? <DashboardNavigator /> : <AppNavigator />}
-        <Route path="*" component={Error404Screen} />
+        <Route path="*" exact component={Error404Screen} />
       </div>
     </Router>
   );

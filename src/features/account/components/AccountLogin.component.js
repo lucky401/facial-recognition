@@ -1,18 +1,32 @@
+import { useContext } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { useHistory } from 'react-router-dom';
 
 import { RenderInput } from './RenderInput.component';
+
+import { AuthenticationContext } from '../../../services/authentication/authentication.context';
 
 const lower = (value) => value && value.toLowerCase();
 
 const AccountRegister = ({ handleSubmit, pristine, submitting }) => {
-  const onSubmit = (formValues) => {
-    console.log(formValues);
+  let history = useHistory();
+  const { onLogin, error, isLoading } = useContext(AuthenticationContext);
+
+  const onSubmit = async (formValues) => {
+    try {
+      const { email, password } = formValues;
+      await onLogin(email, password);
+      history.push('/');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
     <form
       className="grid gap-4 grid-rows-2 grid-flow-row"
       onSubmit={handleSubmit(onSubmit)}
+      readOnly={isLoading}
     >
       <Field
         label="Enter Email"
@@ -31,11 +45,33 @@ const AccountRegister = ({ handleSubmit, pristine, submitting }) => {
       />
       <button
         type="submit"
-        disabled={pristine || submitting}
+        disabled={pristine || submitting || isLoading}
         className="px-2 py-2 text-center text-white block bg-gradient-to-br from-green-400 to-blue-500 border border-transparent rounded-md hover:to-green-600 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-100 disabled:opacity-50"
       >
         Get started!
       </button>
+      {error ? (
+        <div className="bg-red-50 p-4 rounded flex items-start text-red-600 my-4 shadow-lg w-full">
+          <div className="text-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <div className="px-3">
+            <h3 className="text-red-800 font-semibold tracking-wider">Error</h3>
+            <p>{error}</p>
+          </div>
+        </div>
+      ) : null}
     </form>
   );
 };

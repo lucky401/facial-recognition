@@ -23,8 +23,8 @@ export const ResultScreen = () => {
     if (image) {
       setIsLoading(true);
       try {
-        const data = await getFaceRecognition(image);
-        setBoxes(calculateFaceLocation(data));
+        const { data } = await getFaceRecognition(image);
+        setBoxes(calculateFaceLocation(data.regions));
       } catch (e) {
         setError(e.toString());
       } finally {
@@ -35,17 +35,17 @@ export const ResultScreen = () => {
     }
   };
 
-  const calculateFaceLocation = (data) => {
+  const calculateFaceLocation = (regions) => {
     const image = document.getElementById('resultImage');
     const width = Number(image.width);
     const height = Number(image.height);
-    return data.map((face) => {
-      const clarifaiFace = face.region_info.bounding_box;
+
+    return regions.map((face) => {
       return {
-        leftCol: clarifaiFace.left_col * width,
-        topRow: clarifaiFace.top_row * height,
-        rightCol: width - clarifaiFace.right_col * width,
-        bottomRow: height - clarifaiFace.bottom_row * height,
+        leftCol: face.left_col * width,
+        topRow: face.top_row * height,
+        rightCol: width - face.right_col * width,
+        bottomRow: height - face.bottom_row * height,
       };
     });
   };
@@ -57,7 +57,10 @@ export const ResultScreen = () => {
           <div className="h-full w-full text-gray-800 rounded-3xl transform shadow-lg bg-gradient-to-br  from-white to-gray-200 -rotate-2 px-4 py-4">
             <h1 className="text-xl text-center mb-4">Result</h1>
             {!error && image ? (
-              <div className="relative">
+              <div
+                className="relative mx-auto h-96 flex items-center"
+                style={{ width: 'fit-content' }}
+              >
                 {isLoading ? (
                   <div className="absolute top-0 right-0 bottom-0 left-0 z-50 flex justify-center items-center bg-opacity-50 bg-gray-700 backdrop-filter backdrop-blur firefox:bg-opacity-90">
                     <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
@@ -65,12 +68,12 @@ export const ResultScreen = () => {
                 ) : null}
                 <Img
                   id="resultImage"
-                  className="max-h-full w-full object-cover"
+                  className="max-h-full w-auto mx-auto object-contain"
                   src={image}
-                  transformation={[{ height: 230, width: 350 }]}
+                  transformation={[{ width: 374 }]}
                   loading="lazy"
-                  height={230}
-                  width={350}
+                  height="auto"
+                  width={374}
                   lqip={{ active: true }}
                 />
                 {boxes.map((box) => (
