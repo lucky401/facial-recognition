@@ -6,7 +6,7 @@ export const FacialRecognitionScreen = () => {
         <div className="bg-blue-500 rounded-3xl transform rotate-2 w-3/4 max-w-xl p-1">
           <div className="h-full w-full text-gray-800 rounded-3xl transform shadow-lg bg-gradient-to-br  from-white to-gray-200 -rotate-2 px-4 py-4">
             <h1 className="text-xl text-center mb-4">Face Recognition</h1>
-            <div className="grid gap-9 grid-cols-2 my-8 px-6">
+            <div className="grid grid-flow-row md:grid-flow-col gap-9 grid-rows-2 md:grid-rows-1 md:grid-cols-2 my-8 px-6">
               <Link
                 to="/upload"
                 className="px-2 py-2 text-center text-md font-medium border-2 border-blue-500 hover:border-blue-700 rounded-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-100"

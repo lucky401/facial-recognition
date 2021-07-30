@@ -8,7 +8,7 @@ import { DashboardNavigator } from './dashboard.navigator';
 
 import { Header } from '../../components/layout/Header';
 
-import { Error404Screen } from '../../features/error/screen/Error404.screen';
+// import { Error404Screen } from '../../features/error/screen/Error404.screen';
 
 export const Navigation = () => {
   const { isAuthenticated } = useContext(AuthenticationContext);
@@ -17,7 +17,7 @@ export const Navigation = () => {
       <div>
         <Header />
         {isAuthenticated ? <DashboardNavigator /> : <AppNavigator />}
-        <Route path="*" exact component={Error404Screen} />
+        {/* <Route path="*" exact component={Error404Screen} /> */}
       </div>
     </Router>
   );

@@ -4,7 +4,7 @@ export const HomeScreen = () => {
   return (
     <div className="container mx-auto md:w-3/4 lg:w-3/5">
       <div className="flex min-h-screen flex-col md:flex-row items-center justify-center">
-        <div className="flex-1 p-4 md:p-0 flex flex-col md:mr-6 items-center md:items-start mb-12 md:mb-0">
+        <div className="md:flex-1 p-4 md:p-0 flex flex-col md:mr-6 items-center md:items-start mb-12 md:mb-0">
           <h1 className="text-4xl md:text-5xl font-semibold tracking-wider mb-4">
             Facial Recognition
           </h1>
